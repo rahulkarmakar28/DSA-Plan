@@ -1,0 +1,218 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+///////////////////////
+// USER
+///////////////////////
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String?
+  email     String   @unique
+  password  String?
+  image     String?
+  theme     String   @default("light")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  progress      UserProgress[]
+  notes         UserNote[]
+  testSessions  TestSession[]
+  dailyActivity DailyActivity[]
+  submissions   Submission[]
+  stats         UserStats?
+
+}
+
+///////////////////////
+// PROBLEM
+///////////////////////
+
+model Problem {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  title      String   @unique
+  difficulty String
+  lcUrl      String
+
+  // flexible tagging
+  tags       String[]
+
+  createdAt  DateTime @default(now())
+
+  // Relations
+  progress    UserProgress[]
+  notes       UserNote[]
+  submissions Submission[]
+  testQs      TestQuestion[]
+    embeddings  ProblemEmbedding[]
+
+  @@index([difficulty])
+}
+
+///////////////////////
+// USER PROGRESS
+///////////////////////
+
+model UserProgress {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  problemId String   @db.ObjectId
+
+  solved    Boolean  @default(false)
+  solvedAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id])
+  problem Problem @relation(fields: [problemId], references: [id])
+
+  @@unique([userId, problemId])
+  @@index([userId])
+  @@index([problemId])
+}
+
+///////////////////////
+// USER NOTES
+///////////////////////
+
+model UserNote {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  problemId String   @db.ObjectId
+
+  content   String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id])
+  problem Problem @relation(fields: [problemId], references: [id])
+
+  @@unique([userId, problemId])
+}
+
+///////////////////////
+// SUBMISSIONS
+///////////////////////
+
+model Submission {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  problemId String   @db.ObjectId
+
+  code      String
+  language  String
+  status    String   // accepted, wrong_answer, tle
+  runtime   Int?
+  memory    Int?
+
+  createdAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id])
+  problem Problem @relation(fields: [problemId], references: [id])
+
+  @@index([userId])
+  @@index([problemId])
+  @@index([status])
+}
+
+///////////////////////
+// TEST SESSION
+///////////////////////
+
+model TestSession {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId       String   @db.ObjectId
+
+  testName     String
+  testType     String   // topic | weekly | mock
+  topicKey     String?
+
+  durationMin  Int
+  timeUsedSec  Int
+
+  score        Int      @default(0)
+  totalQ       Int      @default(0)
+
+  completedAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+  questions TestQuestion[]
+
+  @@index([userId])
+}
+
+///////////////////////
+// TEST QUESTIONS
+///////////////////////
+
+model TestQuestion {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  testSessionId String   @db.ObjectId
+  problemId     String   @db.ObjectId
+
+  isCorrect     Boolean  @default(false)
+
+  testSession TestSession @relation(fields: [testSessionId], references: [id])
+  problem     Problem     @relation(fields: [problemId], references: [id])
+
+  @@index([testSessionId])
+}
+
+///////////////////////
+// DAILY ACTIVITY
+///////////////////////
+
+model DailyActivity {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+
+  // safer for Mongo (no timezone bugs)
+  date   String   // "2026-05-01"
+  count  Int      @default(0)
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, date])
+  @@index([userId])
+}
+
+///////////////////////
+// USER STATS
+///////////////////////
+
+model UserStats {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String @unique @db.ObjectId
+
+  totalSolved  Int @default(0)
+  easySolved   Int @default(0)
+  mediumSolved Int @default(0)
+  hardSolved   Int @default(0)
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+///////////////////////
+// AI EMBEDDINGS
+///////////////////////
+
+model ProblemEmbedding {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  problemId String  @db.ObjectId
+
+  vector    Float[]
+
+  problem Problem @relation(fields: [problemId], references: [id])
+
+  @@index([problemId])
+}

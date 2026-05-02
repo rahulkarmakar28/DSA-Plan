@@ -1,0 +1,127 @@
+/* src/app/(auth)/login/login.module.css */
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg3);
+  padding: 24px;
+}
+
+.card {
+  background: var(--bg);
+  border: var(--bd);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.logoIcon {
+  width: 32px;
+  height: 32px;
+  background: var(--green);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.sub {
+  font-size: 13px;
+  color: var(--t2);
+  margin-bottom: 28px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--t1);
+}
+
+.field input {
+  padding: 10px 12px;
+  border: var(--bd);
+  border-radius: var(--radius);
+  background: var(--bg);
+  color: var(--t1);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.field input:focus {
+  border-color: var(--green);
+}
+
+.error {
+  font-size: 13px;
+  color: var(--red);
+  background: var(--red-light);
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  border: 1px solid #f7c1c1;
+}
+
+.btn {
+  padding: 11px;
+  background: var(--green);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 500;
+  transition: opacity 0.15s;
+  margin-top: 4px;
+}
+
+.btn:hover { opacity: 0.88; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.switch {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--t2);
+}
+
+.switchBtn {
+  background: none;
+  border: none;
+  color: var(--green);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}

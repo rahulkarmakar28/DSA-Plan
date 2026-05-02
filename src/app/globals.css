@@ -1,0 +1,70 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #ffffff;
+  --bg2: #f7f7f5;
+  --bg3: #f0efe9;
+  --t1: #1a1a1a;
+  --t2: #6b6b67;
+  --t3: #a8a8a2;
+  --bd: 1px solid #e5e4de;
+  --green: #3B6D11;
+  --green-bg: #eaf3de;
+  --blue: #185FA5;
+  --blue-bg: #e4eefa;
+  --amber: #9a5c00;
+  --amber-bg: #fdf0d8;
+  --red: #9e2525;
+  --red-bg: #fceaea;
+  --purple: #6b21a8;
+  --purple-bg: #f3e8ff;
+  --radius: 8px;
+  --radius-lg: 12px;
+  --shadow: 0 1px 4px rgba(0,0,0,0.07);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+  --sidebar-w: 230px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg: #141413;
+  --bg2: #1d1d1b;
+  --bg3: #252522;
+  --t1: #ededea;
+  --t2: #8f8f89;
+  --t3: #5e5e58;
+  --bd: 1px solid #2e2e2a;
+  --green: #6aad2a;
+  --green-bg: #1a2d0a;
+  --blue: #5a9de0;
+  --blue-bg: #0d1f36;
+  --amber: #d4913a;
+  --amber-bg: #2d1a04;
+  --red: #e05a5a;
+  --red-bg: #2d0e0e;
+  --purple: #b57ae6;
+  --purple-bg: #1e0d33;
+  --shadow: 0 1px 4px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+html, body { height: 100%; font-family: var(--font); background: var(--bg); color: var(--t1); font-size: 14px; line-height: 1.5; }
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: var(--font); font-size: 13px; }
+input, select, textarea { font-family: var(--font); font-size: 13px; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bd); border-radius: 3px; }
+
+/* Common components */
+.btn-primary { background: var(--green); color: #fff; border: none; padding: 8px 16px; border-radius: var(--radius); font-weight: 500; transition: opacity .15s; }
+.btn-primary:hover { opacity: .85; }
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+.btn-secondary { background: var(--bg3); color: var(--t1); border: var(--bd); padding: 7px 14px; border-radius: var(--radius); font-weight: 500; transition: background .15s; }
+.btn-secondary:hover { background: var(--bg2); }
+.badge { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; }
+.badge-easy { background: var(--green-bg); color: var(--green); }
+.badge-medium { background: var(--amber-bg); color: var(--amber); }
+.badge-hard { background: var(--red-bg); color: var(--red); }
+.badge-blue { background: var(--blue-bg); color: var(--blue); }
+.card { background: var(--bg2); border: var(--bd); border-radius: var(--radius-lg); }
