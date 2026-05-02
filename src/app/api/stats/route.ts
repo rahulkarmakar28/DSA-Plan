@@ -92,7 +92,7 @@ export async function GET() {
 
     const ds = d.toISOString().split("T")[0];
 
-    if (actSet.has(new Date(ds))) streak++;
+    if (actSet.has(ds)) streak++;
     else break;
   }
 
